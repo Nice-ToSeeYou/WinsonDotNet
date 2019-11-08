@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinsonDotNet", "WinsonDotNet\WinsonDotNet.csproj", "{4B4DC745-2ECC-45D4-AB2C-26A60128BE45}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{EEDD90ED-E7CF-4289-89BD-71018F289442}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin_Economy", "Plugins\Plugin_Economy\Plugin_Economy.csproj", "{31033B47-638D-4A32-AC8F-4532CCDA4F89}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4B4DC745-2ECC-45D4-AB2C-26A60128BE45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B4DC745-2ECC-45D4-AB2C-26A60128BE45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B4DC745-2ECC-45D4-AB2C-26A60128BE45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B4DC745-2ECC-45D4-AB2C-26A60128BE45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31033B47-638D-4A32-AC8F-4532CCDA4F89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31033B47-638D-4A32-AC8F-4532CCDA4F89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31033B47-638D-4A32-AC8F-4532CCDA4F89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31033B47-638D-4A32-AC8F-4532CCDA4F89}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{31033B47-638D-4A32-AC8F-4532CCDA4F89} = {EEDD90ED-E7CF-4289-89BD-71018F289442}
+	EndGlobalSection
+EndGlobal

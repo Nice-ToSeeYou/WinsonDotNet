@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp2.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="DSharpPlus.CommandsNext" Version="4.0.0-nightly-00635" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\WinsonDotNet\WinsonDotNet.csproj" />
+    </ItemGroup>
+
+</Project>
