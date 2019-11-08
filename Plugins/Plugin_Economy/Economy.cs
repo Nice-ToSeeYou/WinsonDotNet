@@ -10,7 +10,6 @@ using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity;
-using DSharpPlus.Interactivity.EventHandling;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using WinsonDotNet.Logging;
@@ -36,12 +35,14 @@ namespace Plugin_Economy
         #region Commands
 
         [Command("starteco")]
+        [RequirePermissions(Permissions.BanMembers)]
         [Description("Start or stop the Economy plugin")]
         public async Task StartPluginAsync(CommandContext ctx,
             [Description("Activate the plugin or deactivate it, default false")] bool start = false)
             => await InitEventHandler(ctx, start);
         
         [Command("showshop")]
+        [Aliases("shop")]
         [Description("Start or stop the Economy plugin")]
         public async Task ShowShopAsync(CommandContext ctx)
             => await ShowShop(ctx);
@@ -67,6 +68,23 @@ namespace Plugin_Economy
 
                 UsersEco = await GetUsers();
                 ShopList = await GetShopObjects();
+
+                var embed = new DiscordEmbedBuilder
+                {
+                    Author = new DiscordEmbedBuilder.EmbedAuthor
+                    {
+                        Name = ctx.User.Username,
+                        IconUrl = ctx.User.AvatarUrl
+                    },
+                    
+                    Description = ":white_check_mark: The Economy plugin is now active",
+                    
+                    Timestamp = DateTimeOffset.Now,
+                    
+                    Color = DiscordColor.Green
+                };
+                
+                await ctx.RespondAsync(embed: embed.Build());
             }
             else
             {
@@ -74,6 +92,24 @@ namespace Plugin_Economy
                     .LogAsync(new LogMessage(LogLevel.Info, "Economy plugin", $"The module was deactivated in {ctx.Guild.Name}"));
                 ctx.Client.MessageCreated -= ClientOnMessageCreated;
                 ctx.Client.MessageReactionAdded -= ClientOnMessageReactionAdded;
+                ctx.Client.MessageReactionRemoved -= ClientOnMessageReactionRemoved;
+                
+                var embed = new DiscordEmbedBuilder
+                {
+                    Author = new DiscordEmbedBuilder.EmbedAuthor
+                    {
+                        Name = ctx.User.Username,
+                        IconUrl = ctx.User.AvatarUrl
+                    },
+                    
+                    Description = ":x: The Economy plugin is now inactive",
+                    
+                    Timestamp = DateTimeOffset.Now,
+                    
+                    Color = DiscordColor.Red
+                };
+                
+                await ctx.RespondAsync(embed: embed.Build());
             }
         }
 
@@ -84,8 +120,7 @@ namespace Plugin_Economy
             if (UsersEco.Users.Exists(u => u.Id == e.Author.Id))
             {
                 var user = UsersEco.Users.Find(u => u.Id == e.Author.Id);
-                var rand = new Random();
-                if (user.Time.Add(TimeSpan.FromMinutes(rand.Next(5, 16))) >= DateTime.Now) return;
+                if (user.Time > DateTime.Now) return;
                 
                 AddCookieToUser(e.Author);
             }
@@ -280,8 +315,11 @@ namespace Plugin_Economy
             {
                 var user = UsersEco.Users.Find(u => u.Id == discordUser.Id);
                 
+                var rand = new Random();
+                
                 UsersEco.Users.Remove(user);
                 user.Cookies += cookie;
+                user.Time = DateTime.Now.Add(TimeSpan.FromMinutes(rand.Next(10, 21)));
                 UsersEco.Users.Add(user);
             }
             else
@@ -291,7 +329,7 @@ namespace Plugin_Economy
                     Id = discordUser.Id,
                     Username = discordUser.Username,
                     Cookies = cookie,
-                    Time = DateTime.Now.Subtract(TimeSpan.FromMinutes(5))
+                    Time = DateTime.Now
                 };
                 
                 UsersEco.Users.Add(user);
